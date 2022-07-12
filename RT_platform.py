@@ -1,10 +1,12 @@
 # %%
+from fileinput import filename
+from numpy import append
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.gridspec import GridSpec
 import matplotlib.ticker as mticker
-from mplfinance.original_flavor import candlestick2_ohlc
+from mplfinance.original_flavor import candlestick_ohlc
 import datetime
 import math
 
@@ -72,4 +74,29 @@ def read_data_ohlc(filename, stock_code, usecols):
     data.reset_index(drop=True, inplace=True)
 
     return data, latest_price, latest_change, df['pattern'][-1], df['target'][-1], df['volume'][-1]
+
+def animate(i):
+    filename = 'META.csv'
+    data, latest_price, latest_change,pattern, target, volume = \
+                read_data_ohlc(filename,Stock[0], [1, 2, 3, 4, 5, 6]) # need correction
+    candle_counter = range(len(data['open'])-1)
+    ohlc = []
+    for candle in candle_counter:
+        append_me = candle_counter[candle], data['open'[candle],\
+                    data['high']][candle], data['low'][candle],\
+                    data['close'][candle]
+    ohlc.append(append_me)
+
+    ax1.clear() # clear after each iteration
+    candlestick_ohlc(ax1, ohlc, width=0.4, colorup='#18b800', colordown='#ff3503')
+
+    ax1.plot(data['MA5'], color='pink', linestyle='-', linewidth=1, label='5 minutes SMA')
+    ax1.plot(data['MA10'], color='orange', linestyle='-', linewidth=1, label='10 minutes SMA')
+    ax1.plot(data['MA20'], color='#08a0e9', linestyle='-', linewidth=1, label='20 minutes SMA')
+
+    leg = ax1.legend(loc='upper left', facecolor='#121416', fontsize=10)
+    for text in leg.get_texts():
+        plt.setp(text, color='w')
+    
+    figure_design(ax1)
 
