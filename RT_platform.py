@@ -25,7 +25,7 @@ ax7 = fig.add_subplot(gs[5, 4:6])
 ax8 = fig.add_subplot(gs[4, 0:4])
 ax9 = fig.add_subplot(gs[5, 0:4])
 
-Stock = ['BRK-B', 'PYPL', 'TWTR', 'AAPL', 'AMZN', 'MSFT', 'FB']
+Stock = ['BRK-B', 'PYPL', 'TWTR', 'AAPL', 'AMZN', 'MSFT', 'META']
 
 plt.show()
 
@@ -100,3 +100,35 @@ def animate(i):
     
     figure_design(ax1)
 
+    ax1.text(0.005, 1.05, Stock[0], transform=ax1.transAxes, color='black', fontsize=18,
+                fontweight='bold', horizontalalignment='left', veticalalignment='center', 
+                bbox=dict(facecolor='#FFBF00'))
+
+    ax1.text(0.2, 1.05, latest_price, transform=ax1.transAxes, color='white', fontsize=18,
+                fontweight='bold', horizontalalignment='center', veticalalignment='center')
+
+    if latest_change[0] == '+':
+        colorcode = '#18b800'
+    else:
+        colorcode = '#ff3503'
+
+    ax1.text(0.4, 1.05, latest_change, transform=ax1.transAxes, color=colorcode, fontsize=18,
+                fontweight='bold', horizontalalignment='center', veticalalignment='center')
+
+    ax1.text(0.6, 1.05, target, transform=ax1.transAxes, color='#08a0e9', fontsize=18,
+                fontweight='bold', horizontalalignment='center', veticalalignment='center')
+    
+    time_stamp = datetime.datetime.now()
+    time_stamp = time_stamp.strftime("%Y-%m-%d %H:%M:%S")
+
+    ax1.text(1.4, 1.05, time_stamp, color='white', fontsize=12,
+                fontweight='bold', horizontalalignment='center', veticalalignment='center')
+
+    ax1.grid(True, color='grey', linestyle='-', which='major', axis='both', linewidth=0.3)
+    ax1.set_xticklabels([])
+
+# %%
+ani = animation.FuncAnimation(fig, animate, interval=1)
+plt.show()
+
+# %%

@@ -55,6 +55,7 @@ import pandas as pd
 import pandas_datareader.data as web
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
+import streamlit as st
 today = date.today()
 
 d1 = today.strftime("%Y/%m/%d")
@@ -62,7 +63,7 @@ end_date = d1
 d2 = date.today() - timedelta(days=360)
 d2 = d2.strftime("%Y/%m/%d")
 start_date = d2
-import streamlit as st
+
 st.title("Real-time Stock Price Data")
 # a = st.text_input("Enter Any Company >>:")
 a = 'META'
@@ -73,17 +74,26 @@ plt.legend()
 plt.grid()
 st.pyplot(fig)
 
-
 # %%
 # Using yfinance
 import yfinance
+# Valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
+# Valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
 tickers = ['META']
 data_1m = yfinance.download(tickers=tickers, period='1d', interval='1m')
-data_1m
+# %%
+data_1m.to_csv('META.csv', mode='a', header=False)
 
 # %%
-datas = yfinance.Ticker('META')
+fig, ax = plt.subplots() 
+ax = data_1m["Adj Close"].plot(figsize=(12, 8), title=a+" Stock Prices", fontsize=20, label="Adj Close Price")
+plt.legend()
+plt.grid()
+st.pyplot(fig)
 # %%
-df = pd.DataFrame(datas)
-df
+fig, ax = plt.subplots() 
+ax = data_1m["Volume"].plot(figsize=(12, 8), title=a+" Volumes", fontsize=20, label="Volume")
+plt.legend()
+plt.grid()
+st.pyplot(fig)
 # %%
