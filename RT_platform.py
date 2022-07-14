@@ -77,6 +77,7 @@ def read_data_ohlc(filename, stock_code, usecols):
 
 def animate(i):
     filename = 'META.csv'
+    # Stock = ['META', 'BRK-B', 'PYPL', 'TWTR', 'AAPL', 'AMZN', 'MSFT']
     data, latest_price, latest_change,pattern, target, volume = \
                 read_data_ohlc(filename,Stock[0], [1, 2, 3, 4, 5, 6]) # need correction
     candle_counter = range(len(data['open'])-1)

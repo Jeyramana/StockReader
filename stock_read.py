@@ -3,7 +3,12 @@ import pandas as pd
 import datetime, requests
 from requests.exceptions import ConnectionError
 from bs4 import BeautifulSoup
+import pandas_datareader.data as web
+import matplotlib.pyplot as plt
+from datetime import date, timedelta
+import streamlit as st
 
+# %%
 def web_content_div(web_content, class_path):
     print('inside webcontent div')
     # web_content_div = web_content.find_all('div', {'class': class_path})
@@ -82,17 +87,23 @@ import yfinance
 tickers = ['META']
 data_1m = yfinance.download(tickers=tickers, period='1d', interval='1m')
 # %%
-data_1m.to_csv('META.csv', mode='a', header=False)
+data_1m.to_csv('META.csv', mode='w', header=True)
+
+# %%
+data_1m = pd.read_csv('META.csv')
+
+# %%
+data_1m.head()
 
 # %%
 fig, ax = plt.subplots() 
-ax = data_1m["Adj Close"].plot(figsize=(12, 8), title=a+" Stock Prices", fontsize=20, label="Adj Close Price")
+ax = data_1m["Adj Close"].plot(figsize=(12, 8), title=" Stock Prices", fontsize=20, label="Adj Close Price")
 plt.legend()
 plt.grid()
 st.pyplot(fig)
 # %%
 fig, ax = plt.subplots() 
-ax = data_1m["Volume"].plot(figsize=(12, 8), title=a+" Volumes", fontsize=20, label="Volume")
+ax = data_1m["Volume"].plot(figsize=(12, 8), title=" Volumes", fontsize=20, label="Volume")
 plt.legend()
 plt.grid()
 st.pyplot(fig)
